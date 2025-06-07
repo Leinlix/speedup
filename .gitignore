@@ -3,3 +3,5 @@
 build
 .idea
 speedup.egg-info
+test/deepseek-ai
+test/__pycache__

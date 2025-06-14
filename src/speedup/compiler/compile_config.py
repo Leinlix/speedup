@@ -8,8 +8,11 @@ use_xformer
 """
 class CompileConfig:
     use_triton = True
-    def __init__(self, use_default_pass=True):
-        self.pass_list = []
+    def __init__(self, use_default_pass=True, verbose=False):
+        self.verbose = verbose
+        self.pre_pass_list = []
+        self.post_pass_list = []
         if use_default_pass:
-            self.pass_list= []
+            self.pre_pass_list  = []
+            self.post_pass_list = []
 

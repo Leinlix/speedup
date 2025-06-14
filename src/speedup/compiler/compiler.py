@@ -5,6 +5,6 @@ from src.speedup.compiler.speedup_backend import SpeedupBackend
 
 
 def compile_model(model, config:CompileConfig):
-    passes = config.pass_list
-    backend = SpeedupBackend
-    torch.compile(model, backend=backend)
+    backend = SpeedupBackend(config)
+    compiled_model = torch.compile(model, backend=backend)
+    return compiled_model

@@ -1,6 +1,6 @@
 from os import path
 import glob
-from setuptools import setup,Extension
+from setuptools import setup, find_packages
 from torch.utils import cpp_extension
 from torch.utils.cpp_extension import CppExtension
 import torch
@@ -18,12 +18,15 @@ setup(
     version='0.0.1',
     ext_modules=[
         CppExtension(
-            name='speedup',
+            name='speedup._C',
             sources=get_ext_cpp_source(),
             include_dirs=cpp_extension.include_paths(),
             language='c++'
         )
     ],
-    packages=['src.speedup','src.speedup.compiler'],
+    package_dir={
+        '':'src'
+    },
+    packages=find_packages(where='src'),
     cmdclass={'build_ext': torch.utils.cpp_extension.BuildExtension.with_options(use_ninja=False) if platform.system().lower() == 'windows' else torch.utils.cpp_extension.BuildExtension}
 )

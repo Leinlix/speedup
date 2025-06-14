@@ -1,0 +1,2 @@
+if using modelscope model 
+use export VLLM_USE_MODELSCOPE=True before run test;

@@ -1,5 +1,5 @@
 import torch
-import speedup.C
+import speedup._C
 
 def run_test():
     x = torch.randint(32, (1, 8), dtype=torch.uint8)

@@ -5,3 +5,4 @@ build
 speedup.egg-info
 test/deepseek-ai
 test/__pycache__
+dist/

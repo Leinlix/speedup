@@ -1,8 +1,7 @@
 # Use a pipeline as a high-level helper
 import pytest
 from modelscope import AutoModelForCausalLM, AutoTokenizer
-from vllm.platforms.interface import SamplingParams
-from vllm import LLM
+from vllm import LLM, SamplingParams
 
 model_name ="Qwen/Qwen3-0.6B"
 prompt = "Tell me something about large language model"

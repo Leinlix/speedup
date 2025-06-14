@@ -2,6 +2,9 @@
 import pytest
 from modelscope import AutoModelForCausalLM, AutoTokenizer
 from vllm import LLM, SamplingParams
+from speedup.compiler.compiler import compile_model
+from speedup.compiler.compile_config import CompileConfig
+
 
 model_name ="Qwen/Qwen3-0.6B"
 prompt = "Tell me something about large language model"
@@ -39,11 +42,28 @@ def test_modelscope():
     print('content:', content)
 
 
-def test_vllm_custom_op():
-    sampling_params = SamplingParams(temperature=0.7, top_p=0.8, repetition_penalty=1.05)
+def test_vllm():
+    sampling_params = SamplingParams(temperature=0.7, top_p=0.8, repetition_penalty=1.05, max_tokens=32768)
     llm = LLM(model=model_name)
     outputs = llm.generate([text], sampling_params)
 
     for outputs in outputs:
         generated_text = outputs.outputs[0].text
         print(generated_text)
+
+def test_speedup():
+    sampling_params = SamplingParams(temperature=0.7, top_p=0.8, repetition_penalty=1.05, max_tokens=32768)
+    llm = LLM(model=model_name)
+    # compile model
+    model_runner = llm.llm_engine.model_executor.driver_worker.model_runner
+    ori_model = model_runner.model
+    cp = CompileConfig(verbose = True)
+    compiled_model = compile_model(ori_model, cp)
+    model_runner.model = compiled_model
+    outputs = llm.generate([text], sampling_params)
+
+    for outputs in outputs:
+        generated_text = outputs.outputs[0].text
+        print(generated_text)
+
+test_speedup()

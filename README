@@ -1,2 +1,5 @@
 if using modelscope model 
 use export VLLM_USE_MODELSCOPE=True before run test;
+
+if encounter AttributeError: 'LLMEngine' object has no attribute 'model_executor'
+use export VLLM_ENABLE_V1_MULTIPROCESSING=0
